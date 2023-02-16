@@ -5,57 +5,59 @@ import { setPublicList, setHideList, setShowPopup } from '../../redux/filter/sli
 
 import imageClose from '../../assets/img/icon/close.svg';
 
-import styles from './Popup.module.scss';
+import styles from './PopupTouch.module.scss';
+import DragDropArea from './DragDropArea';
 
 function Popup() {
   const [search, setSearch] = React.useState('');
 
+  //---------------------------------------------------
   const { publicList, hideList, showPopup } = useSelector((state) => state.lists);
   const dispatch = useDispatch();
 
   const [lists, setLists] = React.useState([hideList, publicList]);
+  ///-------------------------------------------
+  // const [curentList, setCurentList] = React.useState();
+  // const [curentColumn, setCurentColumn] = React.useState();
 
-  const [curentList, setCurentList] = React.useState();
-  const [curentColumn, setCurentColumn] = React.useState();
+  // const onDragOverHandler = (event) => {
+  //   event.preventDefault();
+  // };
+  // const onDragStartHandler = (event, list, column) => {
+  //   setCurentList(list);
+  //   setCurentColumn(column);
+  // };
 
-  const onDragOverHandler = (event) => {
-    event.preventDefault();
-  };
-  const onDragStartHandler = (event, list, column) => {
-    setCurentList(list);
-    setCurentColumn(column);
-  };
+  // const onDropHandler = (event, list) => {
+  //   event.preventDefault();
+  //   if (curentList.id !== list.id) {
+  //     const arrWithout = curentList.columns.filter((el) => curentColumn.id !== el.id);
+  //     setLists(
+  //       lists.map((l) => {
+  //         if (l.id === list.id) {
+  //           return { ...l, columns: [...l.columns, curentColumn] };
+  //         } else {
+  //           return { ...l, columns: arrWithout };
+  //         }
+  //       }),
+  //     );
+  //   }
+  // };
 
-  const onDropHandler = (event, list) => {
-    event.preventDefault();
-    if (curentList.id !== list.id) {
-      const arrWithout = curentList.columns.filter((el) => curentColumn.id !== el.id);
-      setLists(
-        lists.map((l) => {
-          if (l.id === list.id) {
-            return { ...l, columns: [...l.columns, curentColumn] };
-          } else {
-            return { ...l, columns: arrWithout };
-          }
-        }),
-      );
-    }
-  };
-
-  const onClickRemove = (list, column) => {
-    if (window.confirm('Remove?')) {
-      const arrWithout = list.columns.filter((el) => column.id !== el.id);
-      setLists(
-        lists.map((l) => {
-          if (l.id !== list.id) {
-            return { ...l, columns: [...l.columns, column] };
-          } else {
-            return { ...l, columns: arrWithout };
-          }
-        }),
-      );
-    }
-  };
+  // const onClickRemove = (list, column) => {
+  //   if (window.confirm('Remove?')) {
+  //     const arrWithout = list.columns.filter((el) => column.id !== el.id);
+  //     setLists(
+  //       lists.map((l) => {
+  //         if (l.id !== list.id) {
+  //           return { ...l, columns: [...l.columns, column] };
+  //         } else {
+  //           return { ...l, columns: arrWithout };
+  //         }
+  //       }),
+  //     );
+  //   }
+  // };
 
   const searchHendler = (event) => {
     setSearch(event.target.value);
@@ -94,7 +96,9 @@ function Popup() {
             </div>
           </form>
           <div className={styles.popup__row}>
-            {lists.map((list) => (
+            <DragDropArea />
+
+            {/* {lists.map((list) => (
               <div
                 key={list.id + list.title}
                 onDragOver={(event) => onDragOverHandler(event)}
@@ -129,7 +133,7 @@ function Popup() {
                     ))}
                 </div>{' '}
               </div>
-            ))}
+            ))} */}
           </div>
           <button onClick={() => onClickApply()} className={`btn ${styles.popup__btn}`}>
             Apply
