@@ -1,0 +1,13 @@
+.members {
+  width: 100%;
+  border-collapse: collapse;
+  thead {
+    background: rgba(#ccc, 0.3);
+    text-transform: uppercase;
+  }
+
+  td {
+    padding: 10px;
+    border: 1px solid #505050;
+  }
+}
