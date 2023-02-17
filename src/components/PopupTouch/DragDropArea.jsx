@@ -33,7 +33,13 @@ function DragDropArea({ search, lists, setLists }) {
 
     lists.forEach((list) => {
       if (list.title === source.droppableId) {
-        dragableColumn = list.columns[source.index];
+        dragableColumn = list.columns.filter((col) => {
+          if (list.id === 2) {
+            return col.title.toLowerCase().includes(search.toLowerCase());
+          } else {
+            return true;
+          }
+        })[source.index];
       }
     });
 
