@@ -13,10 +13,12 @@ The application is useful for the convenience of displaying a list of users insi
 
 ## For developers
 
-User data comes from https://mockapi.io/
-Search by columns works by filtering the list in frontend.
-DnD works using the library <a href="https://github.com/atlassian/react-beautiful-dnd">react-beautiful-dnd</a> (functionality was developed using Mouse Events, but they did not work on the mobile version)
-Pagination works with a request to the backend
+<ul>
+<li>User data comes from https://mockapi.io/</li>
+<li>Search by columns works by filtering the list in frontend.</li>
+<li>DnD works using the library <a href="https://github.com/atlassian/react-beautiful-dnd">react-beautiful-dnd</a> (functionality was developed using Mouse Events, but they did not work on the mobile version)</li>
+<li>Pagination works with a request to the backend</li>
+</ul>
 
 ### Stored in Redux Toolkit:
 
