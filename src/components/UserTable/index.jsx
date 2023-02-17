@@ -10,7 +10,7 @@ export const UserTable = () => {
 
   const publicColums = [];
 
-  columns.map((col) => {
+  columns.forEach((col) => {
     publicColums.push(col.key);
   });
 

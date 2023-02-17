@@ -3,9 +3,7 @@ import axios from 'axios';
 
 export const fetchUserData = createAsyncThunk('users/fetchData', async (params) => {
   const { page = 1, limit = 15 } = params;
-
   const paramsLine = `?page=${page}&limit=${limit}`;
-  console.log(paramsLine);
   const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/userData${paramsLine}`);
 
   return data;

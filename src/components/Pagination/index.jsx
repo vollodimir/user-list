@@ -7,12 +7,13 @@ import styles from './Pagination.module.scss';
 
 export const Pagination = () => {
   const dispatch = useDispatch();
+  const { page, pages } = useSelector((state) => state.user.pagination);
 
   const onChangePage = (page) => {
+    if (page < 1 || page > pages) return;
+
     dispatch(setCurentPage(page));
   };
-
-  const { page, pages } = useSelector((state) => state.user.pagination);
 
   return (
     <div className={styles.pagination}>

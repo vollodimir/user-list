@@ -1,53 +1,61 @@
 import React from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { useSelector, useDispatch } from 'react-redux';
 
 import styles from './PopupTouch.module.scss';
 import imageClose from '../../assets/img/icon/close.svg';
 
-function DragDropArea() {
-  const [search, setSearch] = React.useState('');
-  /////////////////////
-
-  const { publicList, hideList } = useSelector((state) => state.lists);
-  const dispatch = useDispatch();
-
-  const [lists, setLists] = React.useState([hideList, publicList]);
-
-  const onClickRemove = (list, column) => {};
-
-  const onDragEnd = ({ destination, source }) => {
-    //console.log('destination=>', destination, source);
-
-    if (!destination || source.droppableId === destination.droppableId) {
-      return;
-    }
-    //source.droppableId, '--->', destination.droppableId
+function DragDropArea({ search, lists, setLists }) {
+  const setNewList = (curentColumn, lists, destinationTitle, remove = false) => {
     setLists(
       lists.map((list) => {
-        if (list.title === destination.droppableId) {
-          return { ...list, columns: [...list.columns, list.columns[source.index]] }; //z drugugu masiva
+        const condition = remove
+          ? list.title !== destinationTitle
+          : list.title === destinationTitle;
+
+        if (condition) {
+          return { ...list, columns: [...list.columns, curentColumn] };
         } else {
-          const arrWithout = list.columns.filter((_, index) => {
-            console.log(index, '---', source.index);
-            return index !== source.index;
-          });
+          const arrWithout = list.columns.filter(({ id }) => id !== curentColumn.id);
+
           return { ...list, columns: arrWithout };
         }
       }),
     );
   };
 
+  const onDragEnd = (params) => {
+    const { destination, source } = params;
+    if (!destination || source.droppableId === destination.droppableId) {
+      return;
+    }
+
+    let dragableColumn = {};
+
+    lists.forEach((list) => {
+      if (list.title === source.droppableId) {
+        dragableColumn = list.columns[source.index];
+      }
+    });
+
+    setNewList(dragableColumn, lists, destination.droppableId);
+  };
+
+  const onClickRemove = (list, column) => {
+    setNewList(column, lists, list.title, true);
+  };
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       {lists.map((list) => (
         <Droppable key={list.id + list.title} droppableId={list.title}>
-          {(provided) => (
+          {(provided, snapshot) => (
             <div
               ref={provided.innerRef}
               {...provided.droppableProps}
               {...provided.dragHandleProps}
-              className={styles.popup__columns}>
+              className={`${styles.popup__columns} ${
+                snapshot.isDraggingOver ? styles.popup__columns_isDrop : ''
+              }`}>
               <h3 className={styles.popup__title}>{list.title}</h3>
               <div className={styles.popup__list}>
                 {list.columns
@@ -61,17 +69,24 @@ function DragDropArea() {
                   .map((column, index) => (
                     <Draggable
                       key={column.id + column.title + index}
-                      draggableId={column.id.toString()} ///to string????
+                      draggableId={column.key}
                       index={index}>
-                      {(provided) => (
+                      {(provided, snapshot) => (
                         <div
-                          className={styles.column}
+                          className={`${styles.column} ${
+                            snapshot.isDragging ? styles.column_isDrag : ''
+                          }`}
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}>
                           {column.title}
                           {list.id === 1 && (
-                            <img onClick={() => onClickRemove()} src={imageClose} alt="Remove" />
+                            <img
+                              onClick={() => onClickRemove(list, column)}
+                              src={imageClose}
+                              title="Remove?"
+                              alt="Remove"
+                            />
                           )}
                         </div>
                       )}

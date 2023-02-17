@@ -82,6 +82,7 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
+    user-select: none;
   }
 
   &__columns {
@@ -91,6 +92,10 @@
     border-radius: 10px;
     background: #191b1f;
     padding: 15px 25px;
+
+    &_isDrop {
+      background: rgba(#373b44, 1);
+    }
   }
 
   &__title {
@@ -130,6 +135,10 @@
   cursor: grab;
   z-index: 160;
   transition: 0.3s;
+
+  &_isDrag {
+    background: #111214;
+  }
 
   &:hover {
     border: 1px solid rgba(#000, 0.4);
