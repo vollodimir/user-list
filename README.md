@@ -1,6 +1,6 @@
 # React Users Data
 
-Projekt hosted <a href="http://user-list.pl.vn.ua/">user-list.pl.vn.ua</a>.
+Projekt hosted <a href="https://pl.vn.ua/user-list/">pl.vn.ua/user-list</a>.
 
 ## Description
 
